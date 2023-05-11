@@ -6,6 +6,17 @@ function App() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
 
+  const pagesToShow = 5
+
+  // calculate the starting and ending page numbers to display:
+  const startPage = Math.max(page - (pagesToShow - 2), 1);
+  const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+  const pageNumbers = [];
+  for (let i=startPage; i<=endPage; i++) {
+    pageNumbers.push(i)
+  }
+
   const selectPage = (selectedPage) => {
     if (selectedPage >= 1 && selectedPage <= totalPages && selectedPage !== page) {
       setPage(selectedPage)
@@ -44,9 +55,9 @@ function App() {
     {products.length > 0 ? (
       <div className='pagination'>
       <span onClick={() => setPage((prev) => prev-1)} className={page === 1 ? 'disable_button' : ""}>◀</span>
-      {[...Array(totalPages)].map((_, i) => {
+      {pageNumbers.map((num, i) => {
         return (
-          <span key={i} className={page === i + 1 ? 'selected_page' : ""} onClick={() => selectPage(i+1)}>{i+1}</span>
+          <span key={i} className={page === num ? 'selected_page' : ""} onClick={() => selectPage(num)}>{num}</span>
         )
       })}
       <span onClick={() => setPage((next) => next+1)} className={page === totalPages ? 'disable_button' : ""}>▶</span>
