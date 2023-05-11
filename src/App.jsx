@@ -13,7 +13,7 @@ function App() {
   }
 
   const fetchProducts = async() => {
-    const response = await fetch(`https://dummyjson.com/products?limit=100&skip=${page*10 -10}`)
+    const response = await fetch(`https://dummyjson.com/products?limit=10&skip=${page*10 -10}`)
     const data = await response.json()
     setProducts(data.products)
     setTotalPages(data.total/10)
@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     fetchProducts()
-  }, [])
+  }, [page])
 
   return (
     <>
@@ -29,7 +29,7 @@ function App() {
     {products.length > 0 ? (
       <>
       <ul className='products'>
-      {products.slice((totalPages*(page-1)), page *10).map(({id, title, images}) => {
+      {products.map(({id, title, images}) => {
         return (
           <li key={id} className='product_single'>
             <img src={images[0]} alt={title}/>
